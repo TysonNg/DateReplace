@@ -1,0 +1,336 @@
+<UserControl x:Class="ContractDateReplacer.App.Views.ReviewView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:converters="clr-namespace:ContractDateReplacer.App.Converters" xmlns:views="clr-namespace:ContractDateReplacer.App.Views" Language="vi-VN" FontFamily="Segoe UI" FontSize="12" Foreground="#0F172A">
+    <UserControl.Resources>
+        <views:ExcelTargetCellConverter x:Key="ExcelTargetCell" />
+        <converters:BooleanToVisibilityConverterCustom x:Key="BoolToVis" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InvBoolToVis" />
+        <Style TargetType="DatePickerTextBox">
+            <Setter Property="Padding" Value="4,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>        <Style x:Key="Panel" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style x:Key="QuietButton" TargetType="Button">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#334155" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Surface" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Surface" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Surface" Property="BorderBrush" Value="#2563EB" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource QuietButton}">
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="BorderBrush" Value="#2563EB" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style x:Key="CompactTable" TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserDeleteRows" Value="False" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#E2E8F0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="RowBackground" Value="White" />
+            <Setter Property="AlternatingRowBackground" Value="#F8FAFC" />
+            <Setter Property="RowHeight" Value="40" />
+            <Setter Property="ColumnHeaderHeight" Value="36" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="SelectionUnit" Value="FullRow" />
+            <Setter Property="EnableRowVirtualization" Value="True" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F8FAFC" />
+            <Setter Property="Foreground" Value="#475569" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#E2E8F0" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#EFF6FF" />
+                    <Setter Property="Foreground" Value="#0F172A" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#0F172A" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Language" Value="vi-VN" />
+            <Setter Property="SelectedDateFormat" Value="Short" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource Panel}" Margin="0,0,0,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Lọc ngày cần rà soát" Style="{StaticResource SectionTitle}" />
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="110" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox ItemsSource="{Binding FileFilterOptions}" SelectedItem="{Binding SelectedFileFilter}" Margin="0,0,12,0" ToolTip="Lọc theo tài liệu" />
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding SheetFilterOptions}" SelectedItem="{Binding SelectedSheetFilter}" Margin="0,0,12,0" ToolTip="Lọc theo sheet" />
+                    <ComboBox Grid.Column="2" SelectedValue="{Binding ActiveCategoryFilter}" SelectedValuePath="Tag" Margin="0,0,12,0" ToolTip="Phân loại ngày">
+                        <ComboBoxItem Content="Tất cả phân loại" Tag="All" />
+                        <ComboBoxItem Content="Ký và hiệu lực" Tag="SignAndEffective" />
+                        <ComboBoxItem Content="Thanh toán và bàn giao" Tag="PaymentAndHandover" />
+                        <ComboBoxItem Content="Ngày sinh / CCCD" Tag="Personal" />
+                        <ComboBoxItem Content="Cần kiểm tra" Tag="Review" />
+                    </ComboBox>
+                    <TextBox Grid.Column="3" Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,12,0" ToolTip="Tìm ngày, ngữ cảnh hoặc tên tài liệu" AutomationProperties.Name="Tìm ngày và ngữ cảnh" />
+                    <ComboBox x:Name="DensitySelector" Grid.Column="4" SelectedIndex="0" ToolTip="Mật độ hiển thị">
+                        <ComboBoxItem Content="Gọn" />
+                        <ComboBoxItem Content="Thoải mái" />
+                    </ComboBox>
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource Panel}" Margin="0,0,0,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Thao tác hàng loạt" Style="{StaticResource SectionTitle}" />
+                <DockPanel Grid.Row="1" LastChildFill="False">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                        <Button Content="Chọn theo đề xuất" Command="{Binding SelectAllRecommendedCommand}" Style="{StaticResource QuietButton}" Margin="0,0,8,0" />
+                        <Button Content="Chọn tất cả" Command="{Binding SelectAllCommand}" Style="{StaticResource QuietButton}" Margin="0,0,8,0" />
+                        <Button Content="Bỏ chọn" Command="{Binding DeselectAllCommand}" Style="{StaticResource QuietButton}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                        <TextBlock Text="Ngày thay thế" VerticalAlignment="Center" Margin="12,0,8,0" />
+                        <DatePicker SelectedDate="{Binding BatchTargetDate}" Width="142" />
+                        <Button Content="Áp dụng cho mục đã chọn" Command="{Binding ApplyBatchDateCommand}" Style="{StaticResource PrimaryButton}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55*" MinWidth="510" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="45*" MinWidth="300" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding CurrentFileInfoText}" Foreground="#475569" TextWrapping="Wrap" Margin="0,0,0,12" />
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredDateItemsView}" SelectedItem="{Binding SelectedDateItem, Mode=TwoWay}">
+                        <DataGrid.Style>
+                            <Style TargetType="DataGrid" BasedOn="{StaticResource CompactTable}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=DensitySelector}" Value="1">
+                                        <Setter Property="RowHeight" Value="56" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Style>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Chọn" Width="45">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanReplace}" HorizontalAlignment="Center" AutomationProperties.Name="Chọn ngày thay thế" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Thông tin ngày" Binding="{Binding DateCompletenessText}" Width="85" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Ngày hiện tại" Binding="{Binding RawText}" Width="*" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Phân loại" Binding="{Binding ClassificationTypeName}" Width="*" IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="Ngày thay thế" Width="145">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding TargetNewDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Ngày thay thế (dd/MM/yyyy)">
+                                            <DatePicker.Style>
+                                                <Style TargetType="DatePicker" BasedOn="{StaticResource {x:Type DatePicker}}">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding IsSelected}" Value="True" />
+                                                                <Condition Binding="{Binding CanReplace}" Value="True" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </DatePicker.Style>
+                                        </DatePicker>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Vị trí" Binding="{Binding SourceLocation}" Width="*" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Grid.Row="1" Text="Chưa có ngày được phát hiện. Hãy quay lại và quét tài liệu." TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="340" Foreground="#64748B" Background="White" Padding="16" Visibility="{Binding HasDateItems, Converter={StaticResource InvBoolToVis}}" />
+                </Grid>
+            </Border>
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Background="#CBD5E1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
+            <Border Grid.Column="2" Style="{StaticResource Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border BorderBrush="#E2E8F0" BorderThickness="0,0,0,1" Padding="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="Ngữ cảnh trong tài liệu" Style="{StaticResource SectionTitle}" />
+                            <TextBlock Text="{Binding PreviewFileName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding PreviewLocation}" Foreground="#2563EB" Margin="0,4,0,0" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SelectedDateItem.StorageTypeLabel}" Foreground="#475569" Margin="0,4,0,0" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SelectedDateItem.ConfidenceText}" Foreground="#64748B" Margin="0,4,0,0" />
+                            <TextBlock Text="{Binding SelectedDateItem.ClassificationExplanation}" Foreground="#64748B" TextWrapping="Wrap" Margin="0,4,0,0" MaxHeight="64" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </Border>
+                    <RichTextBox x:Name="PreviewRichTextBox" Grid.Row="1" IsReadOnly="True" IsDocumentEnabled="False" BorderThickness="0" Padding="0,12,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" FontFamily="Segoe UI" FontSize="13" Background="White" Foreground="#0F172A" IsUndoEnabled="False" Visibility="{Binding IsSpreadsheetPreview, Converter={StaticResource InvBoolToVis}}" />
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding ExcelContextRows}" AutoGenerateColumns="True" IsReadOnly="True" ColumnWidth="SizeToCells" MinColumnWidth="64" Margin="0,12,0,0" Style="{StaticResource CompactTable}" Visibility="{Binding IsSpreadsheetPreview, Converter={StaticResource BoolToVis}}">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}, Converter={StaticResource ExcelTargetCell}}" Value="True">
+                                        <Setter Property="Background" Value="#FEF08A" />
+                                        <Setter Property="Foreground" Value="#713F12" />
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                    <TextBlock Grid.Row="1" Text="Chọn một dòng để xem vị trí ngày được tô sáng." TextWrapping="Wrap" Foreground="#64748B" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="260" IsHitTestVisible="False">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding HasPreviewContent}" Value="False" />
+                                            <Condition Binding="{Binding IsSpreadsheetPreview}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <StackPanel Grid.Row="2">
+                        <Border BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Padding="0,12,0,0" Visibility="{Binding SelectedDateItem.HasSensitiveWarning, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Text="Đang chọn thay ngày sinh hoặc ngày trên giấy tờ cá nhân. Vui lòng kiểm tra kỹ." Foreground="#92400E" TextWrapping="Wrap" />
+                        </Border>
+                        <Border BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Padding="0,12,0,0" Visibility="{Binding SelectedDateItem.HasNonWorkingDayWarning, Converter={StaticResource BoolToVis}}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding SelectedDateItem.NonWorkingDayReason}" Foreground="#92400E" TextWrapping="Wrap" />
+                                <Button Content="Dùng ngày làm việc kế tiếp" Click="ApplySuggestedBusinessDay_Click" Style="{StaticResource QuietButton}" HorizontalAlignment="Left" Margin="0,8,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Border Grid.Row="3" Style="{StaticResource Panel}" Margin="0,16,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                    <TextBlock>
+                        <Run Text="Đã chọn " />
+                        <Run Text="{Binding SelectedDatesCount, Mode=OneWay}" FontWeight="SemiBold" />
+                        <Run Text=" / " />
+                        <Run Text="{Binding TotalDatesCount, Mode=OneWay}" />
+                        <Run Text=" ngày để thay thế" />
+                    </TextBlock>
+                    <TextBlock Text="{Binding ReadinessMessage}" TextWrapping="Wrap" Foreground="#64748B" Margin="0,4,0,0" />
+                    <TextBlock Text="{Binding SensitiveWarningsCount, StringFormat='{}{0} ngày nhạy cảm đang được chọn. Kiểm tra trước khi tiếp tục.'}" Foreground="#92400E" Margin="0,4,0,0" Visibility="{Binding HasSensitiveWarnings, Converter={StaticResource BoolToVis}}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Quay lại tài liệu" Command="{Binding NavigateBackCommand}" Style="{StaticResource QuietButton}" Margin="0,0,8,0" />
+                    <Button Content="{Binding ContinueButtonText, FallbackValue='Tiếp tục: Xem trước'}" Command="{Binding ContinueToPreviewCommand}" IsEnabled="{Binding CanContinueToPreview}" Style="{StaticResource PrimaryButton}" ToolTip="{Binding ReadinessMessage}" ToolTipService.ShowOnDisabled="True" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

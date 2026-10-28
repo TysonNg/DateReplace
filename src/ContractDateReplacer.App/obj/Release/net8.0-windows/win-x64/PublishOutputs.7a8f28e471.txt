@@ -1,0 +1,7 @@
+D:\Projects\DateReplace\Publish_App_Calendar_v2\ContractDateReplacer.App.pdb
+D:\Projects\DateReplace\Publish_App_Calendar_v2\e_sqlite3.dll
+D:\Projects\DateReplace\Publish_App_Calendar_v2\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\Publish_App_Calendar_v2\ContractDateReplacer.Infrastructure.pdb
+D:\Projects\DateReplace\Publish_App_Calendar_v2\ContractDateReplacer.Persistence.pdb
+D:\Projects\DateReplace\Publish_App_Calendar_v2\ContractDateReplacer.Word.pdb
+D:\Projects\DateReplace\Publish_App_Calendar_v2\ContractDateReplacer.App.exe

@@ -1,0 +1,553 @@
+<ui:FluentWindow x:Class="ContractDateReplacer.App.Views.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:converters="clr-namespace:ContractDateReplacer.App.Converters" xmlns:views="clr-namespace:ContractDateReplacer.App.Views" Title="Thay đổi ngày tài liệu" Height="820" Width="1280" MinHeight="680" MinWidth="1060" FontFamily="Segoe UI" FontSize="12" Language="vi-VN" Background="#F1F5F9" WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" AllowDrop="True" DragEnter="OnWindowDragEnter" DragOver="OnWindowDragOver" Drop="OnWindowDrop">
+    <ui:FluentWindow.Resources>
+        <converters:BooleanToVisibilityConverterCustom x:Key="BoolToVis" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InvBoolToVis" />
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#334155"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="22"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid Background="Transparent">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <Border x:Name="CheckBorder" Width="16" Height="16" BorderBrush="#94A3B8" BorderThickness="1" CornerRadius="3" Background="White" VerticalAlignment="Center">
+                                <Path x:Name="CheckMark" Data="M 3,7 L 6,10 L 12,3" Stroke="White" StrokeThickness="2" Visibility="Collapsed"/>
+                            </Border>
+                            <ContentPresenter Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True"><Setter TargetName="CheckBorder" Property="Background" Value="#2563EB"/><Setter TargetName="CheckBorder" Property="BorderBrush" Value="#2563EB"/><Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/></Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="CheckBorder" Property="BorderBrush" Value="#1D4ED8"/></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        <Style x:Key="Panel" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style x:Key="QuietButton" TargetType="Button">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#334155" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Surface" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Surface" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Surface" Property="BorderBrush" Value="#2563EB" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource QuietButton}">
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="BorderBrush" Value="#2563EB" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style x:Key="CompactTable" TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserDeleteRows" Value="False" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#E2E8F0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="RowBackground" Value="White" />
+            <Setter Property="AlternatingRowBackground" Value="#F8FAFC" />
+            <Setter Property="RowHeight" Value="40" />
+            <Setter Property="ColumnHeaderHeight" Value="36" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="SelectionUnit" Value="FullRow" />
+            <Setter Property="EnableRowVirtualization" Value="True" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F8FAFC" />
+            <Setter Property="Foreground" Value="#475569" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#E2E8F0" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#EFF6FF" />
+                    <Setter Property="Foreground" Value="#0F172A" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#0F172A" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+        </Style>
+        <Style x:Key="Phase" TargetType="Border">
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </ui:FluentWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ui:TitleBar Grid.Row="0" Title="Thay đổi ngày tài liệu" ShowMaximize="True" ShowMinimize="True">
+            <ui:TitleBar.Header>
+                <StackPanel Orientation="Horizontal" Margin="16,0,0,0" VerticalAlignment="Center">
+                    <ui:SymbolIcon Symbol="CalendarClock24" Foreground="#2563EB" FontSize="20" Margin="0,0,10,0" />
+                    <TextBlock Text="Thay đổi ngày tài liệu" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </StackPanel>
+            </ui:TitleBar.Header>
+            <ui:TitleBar.TrailingContent>
+                <Menu Background="Transparent" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <MenuItem Header="Công cụ" Padding="12,7">
+                        <MenuItem Header="Đổi tháng bảng chấm công" Command="{Binding OpenAttendanceCalendarCommand}" />
+                        <Separator />
+                        <MenuItem Header="Mẫu thiết lập" Command="{Binding OpenPresetManagementCommand}" />
+                        <MenuItem Header="Quy tắc nhận diện" Command="{Binding OpenRuleManagementCommand}" />
+                        <Separator />
+                        <MenuItem Header="Lịch sử và khôi phục" Command="{Binding OpenRollbackCommand}" />
+                        <MenuItem Header="Nhật ký kiểm toán" Command="{Binding OpenAuditComplianceCommand}" />
+                        <MenuItem Header="Cài đặt" Command="{Binding OpenSettingsCommand}" />
+                    </MenuItem>
+                </Menu>
+            </ui:TitleBar.TrailingContent>
+        </ui:TitleBar>
+        <Border Grid.Row="1" Style="{StaticResource Panel}" Padding="16,8" Margin="16,8,16,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource Phase}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActiveView}" Value="Dashboard">
+                                    <Setter Property="Background" Value="#DBEAFE" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="1  Tài liệu" FontWeight="SemiBold" />
+                </Border>
+                <TextBlock Text="→" Margin="16,0" VerticalAlignment="Center" Foreground="#94A3B8" />
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource Phase}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActiveView}" Value="Review">
+                                    <Setter Property="Background" Value="#DBEAFE" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="2  Rà soát" FontWeight="SemiBold" />
+                </Border>
+                <TextBlock Text="→" Margin="16,0" VerticalAlignment="Center" Foreground="#94A3B8" />
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource Phase}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActiveView}" Value="Preview">
+                                    <Setter Property="Background" Value="#DBEAFE" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="3  Xem trước" FontWeight="SemiBold" />
+                </Border>
+                <TextBlock Text="→" Margin="16,0" VerticalAlignment="Center" Foreground="#94A3B8" />
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource Phase}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActiveView}" Value="Execution">
+                                    <Setter Property="Background" Value="#DBEAFE" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ActiveView}" Value="Report">
+                                    <Setter Property="Background" Value="#DBEAFE" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Text="4  Kết quả" FontWeight="SemiBold" />
+                </Border>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="2" Margin="16">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ActiveView}" Value="Dashboard">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource Panel}" Margin="0,0,0,16">
+                <DockPanel LastChildFill="False">
+                    <StackPanel DockPanel.Dock="Left">
+                        <TextBlock Text="Nhập tài liệu" Style="{StaticResource SectionTitle}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Chọn tài liệu Word / Excel" Command="{Binding Dashboard.AddFilesCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0" />
+                            <Button Content="Chọn thư mục" Command="{Binding Dashboard.AddFolderCommand}" Style="{StaticResource QuietButton}" Margin="0,0,12,0" />
+                            <CheckBox Content="Quét cả sheet ẩn" IsChecked="{Binding Dashboard.IncludeHiddenSheets}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Button Content="Xóa danh sách" Command="{Binding Dashboard.ClearAllCommand}" IsEnabled="{Binding Dashboard.HasFiles}" Style="{StaticResource QuietButton}" Margin="0,0,8,0" />
+                        <Button Content="Quét tài liệu" Command="{Binding Dashboard.ScanDocumentsCommand}" IsEnabled="{Binding Dashboard.CanScan}" Visibility="{Binding Dashboard.IsScanning, Converter={StaticResource InvBoolToVis}}" Style="{StaticResource PrimaryButton}" />
+                        <Button Content="Dừng quét" Command="{Binding Dashboard.CancelScanCommand}" Visibility="{Binding Dashboard.IsScanning, Converter={StaticResource BoolToVis}}" Style="{StaticResource QuietButton}" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+            <Border Grid.Row="1" Style="{StaticResource Panel}" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Lọc tài liệu" Style="{StaticResource SectionTitle}" />
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Dashboard.SearchKeyword, UpdateSourceTrigger=PropertyChanged}" ToolTip="Tìm theo tên hoặc đường dẫn tài liệu" AutomationProperties.Name="Tìm tài liệu" Margin="0,0,12,0" />
+                        <ComboBox Grid.Column="1" SelectedValue="{Binding Dashboard.SelectedFileType}" SelectedValuePath="Tag" Margin="0,0,12,0" ToolTip="Loại tài liệu">
+                            <ComboBoxItem Content="Tất cả định dạng" Tag="All" />
+                            <ComboBoxItem Content="Word" Tag="Word" />
+                            <ComboBoxItem Content="Excel" Tag="Excel" />
+                        </ComboBox>
+                        <ComboBox Grid.Column="2" SelectedValue="{Binding Dashboard.SelectedFilter}" SelectedValuePath="Tag" Margin="0,0,12,0" ToolTip="Trạng thái quét">
+                            <ComboBoxItem Content="Tất cả trạng thái" Tag="All" />
+                            <ComboBoxItem Content="An toàn" Tag="Pass" />
+                            <ComboBoxItem Content="Cần kiểm tra" Tag="Review" />
+                            <ComboBoxItem Content="Có lỗi" Tag="Error" />
+                        </ComboBox>
+                        <ComboBox x:Name="FileDensity" Grid.Column="3" SelectedIndex="0" ToolTip="Mật độ hiển thị">
+                            <ComboBoxItem Content="Gọn" />
+                            <ComboBoxItem Content="Thoải mái" />
+                        </ComboBox>
+                    </Grid>
+                    <StackPanel Grid.Row="2" Margin="0,12,0,0" Visibility="{Binding Dashboard.IsScanning, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="{Binding Dashboard.ScanStatusText}" Margin="0,0,0,6" />
+                        <ProgressBar Value="{Binding Dashboard.ScanProgress}" Maximum="100" Height="4" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*" MinWidth="470" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="4*" MinWidth="280" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Panel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <DockPanel Margin="0,0,0,12">
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <Button Content="Chọn tất cả" Command="{Binding Dashboard.SelectAllCommand}" Style="{StaticResource QuietButton}" Margin="0,0,8,0" />
+                                <Button Content="Bỏ chọn" Command="{Binding Dashboard.DeselectAllCommand}" Style="{StaticResource QuietButton}" />
+                            </StackPanel>
+                            <TextBlock Text="Danh sách tài liệu" Style="{StaticResource SectionTitle}" VerticalAlignment="Center" Margin="0" />
+                        </DockPanel>
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding Dashboard.FilteredFilesView}" SelectedItem="{Binding Dashboard.SelectedFileItem, Mode=TwoWay}" Visibility="{Binding Dashboard.HasFiles, Converter={StaticResource BoolToVis}}">
+                            <DataGrid.Style>
+                                <Style TargetType="DataGrid" BasedOn="{StaticResource CompactTable}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=FileDensity}" Value="1">
+                                            <Setter Property="RowHeight" Value="56" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.Style>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Chọn" Width="45">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" AutomationProperties.Name="Chọn tài liệu" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Tài liệu" Binding="{Binding FileName}" Width="*" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Loại" Binding="{Binding DocumentType}" Width="55" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Ngày" Binding="{Binding TotalDatesDetected}" Width="48" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Trạng thái" Binding="{Binding StatusBadgeText}" Width="125" IsReadOnly="True" />
+                                <DataGridTemplateColumn Width="40">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="×" ToolTip="Bỏ tài liệu khỏi danh sách" Padding="5,2" Style="{StaticResource QuietButton}" Command="{Binding DataContext.Dashboard.RemoveFileCommand, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" CommandParameter="{Binding}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="380" Visibility="{Binding Dashboard.HasFiles, Converter={StaticResource InvBoolToVis}}">
+                            <TextBlock Text="Bắt đầu với tài liệu của bạn" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16" />
+                            <TextBlock Text="1. Chọn hoặc kéo thả tài liệu Word / Excel." Margin="0,0,0,10" TextWrapping="Wrap" />
+                            <TextBlock Text="2. Quét để tìm ngày tháng trong tài liệu." Margin="0,0,0,10" TextWrapping="Wrap" />
+                            <TextBlock Text="3. Rà soát và xem trước trước khi thay đổi." TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Background="#CBD5E1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
+                <Border Grid.Column="2" Style="{StaticResource Panel}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <TextBlock Text="Chi tiết tài liệu" Style="{StaticResource SectionTitle}" />
+                            <TextBlock Text="{Binding Dashboard.SelectedFileItem.FileName, TargetNullValue='Chọn một tài liệu trong bảng'}" FontWeight="SemiBold" FontSize="15" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Dashboard.SelectedFileItem.FilePath}" Foreground="#64748B" TextWrapping="Wrap" Margin="0,6,0,12" />
+                            <TextBlock Text="{Binding Dashboard.SelectedFileSummary}" TextWrapping="Wrap" Margin="0,0,0,12" />
+                            <Border BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Padding="0,12,0,0">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Dashboard.SelectedFileItem.DocumentType}" Value="Excel">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel>
+                                    <TextBlock Text="Sheet trong tài liệu Excel" Style="{StaticResource SectionTitle}" />
+                                    <ItemsControl ItemsSource="{Binding Dashboard.SelectedFileSheets}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" Margin="0,0,0,6" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Padding="0,12,0,0" Margin="0,12,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="Ngày đã phát hiện" Style="{StaticResource SectionTitle}" />
+                                    <ItemsControl ItemsSource="{Binding Dashboard.SelectedFileDates}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="#E2E8F0" BorderThickness="0,0,0,1" Padding="0,8">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding RawText}" FontWeight="SemiBold" />
+                                                        <TextBlock Text="{Binding FullContextDisplay}" Foreground="#64748B" TextWrapping="Wrap" Margin="0,4,0,0" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Border Grid.Row="3" Style="{StaticResource Panel}" Margin="0,16,0,0">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Content="{Binding ContinueButtonText, FallbackValue='Tiếp tục: Rà soát ngày'}" Command="{Binding Dashboard.ContinueToReviewCommand}" IsEnabled="{Binding Dashboard.CanNavigateToReview}" Style="{StaticResource PrimaryButton}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock>
+                            <Run Text="Đã chọn " />
+                            <Run Text="{Binding Dashboard.SelectedFilesCount, Mode=OneWay}" FontWeight="SemiBold" />
+                            <Run Text=" / " />
+                            <Run Text="{Binding Dashboard.TotalFilesCount, Mode=OneWay}" />
+                            <Run Text=" tài liệu" />
+                        </TextBlock>
+                        <TextBlock Text="{Binding StatusMessage}" Foreground="#64748B" Margin="0,4,12,0" TextWrapping="Wrap" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </Grid>
+        <!-- Main Body: VIEW 2 - REVIEW & SELECTION (Phase 6) -->
+        <views:ReviewView Grid.Row="2" DataContext="{Binding Review}">
+            <views:ReviewView.Style>
+                <Style TargetType="views:ReviewView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="Review">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:ReviewView.Style>
+        </views:ReviewView>
+        <!-- Main Body: VIEW 3 - PREVIEW CHANGES / DIFF (Phase 7) -->
+        <views:PreviewView Grid.Row="2" DataContext="{Binding Preview}">
+            <views:PreviewView.Style>
+                <Style TargetType="views:PreviewView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="Preview">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:PreviewView.Style>
+        </views:PreviewView>
+        <!-- Main Body: VIEW 4 - EXECUTION & PROGRESS (Phase 10) -->
+        <views:ExecutionView Grid.Row="2" DataContext="{Binding Execution}">
+            <views:ExecutionView.Style>
+                <Style TargetType="views:ExecutionView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="Execution">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:ExecutionView.Style>
+        </views:ExecutionView>
+        <!-- Main Body: VIEW 5 - DETAILED REPORT (Phase 11) -->
+        <views:ReportView Grid.Row="2" DataContext="{Binding Report}">
+            <views:ReportView.Style>
+                <Style TargetType="views:ReportView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="Report">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:ReportView.Style>
+        </views:ReportView>
+        <!-- Main Body: VIEW 6 - HISTORY ROLLBACK / RESTORE (Phase 12) -->
+        <views:HistoryRollbackView Grid.Row="2" DataContext="{Binding HistoryRollback}">
+            <views:HistoryRollbackView.Style>
+                <Style TargetType="views:HistoryRollbackView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="HistoryRollback">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:HistoryRollbackView.Style>
+        </views:HistoryRollbackView>
+        <!-- Main Body: VIEW 7 - RULE MANAGEMENT (Phase 13) -->
+        <views:RuleManagementView Grid.Row="2" DataContext="{Binding RuleManagement}">
+            <views:RuleManagementView.Style>
+                <Style TargetType="views:RuleManagementView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="RuleManagement">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:RuleManagementView.Style>
+        </views:RuleManagementView>
+        <!-- Main Body: VIEW 8 - PRESET MANAGEMENT (Phase 14) -->
+        <views:PresetManagementView Grid.Row="2" DataContext="{Binding PresetManagement}">
+            <views:PresetManagementView.Style>
+                <Style TargetType="views:PresetManagementView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="PresetManagement">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:PresetManagementView.Style>
+        </views:PresetManagementView>
+        <!-- Main Body: VIEW 9 - AUDIT LOG & COMPLIANCE (Phase 15) -->
+        <views:AuditLogView Grid.Row="2" DataContext="{Binding AuditCompliance}">
+            <views:AuditLogView.Style>
+                <Style TargetType="views:AuditLogView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="AuditCompliance">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:AuditLogView.Style>
+        </views:AuditLogView>
+        <views:AttendanceCalendarView Grid.Row="2" DataContext="{Binding AttendanceCalendar}">
+            <views:AttendanceCalendarView.Style>
+                <Style TargetType="views:AttendanceCalendarView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="AttendanceCalendar">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:AttendanceCalendarView.Style>
+        </views:AttendanceCalendarView>
+        <!-- Main Body: VIEW 10 - SYSTEM SETTINGS (Phase 16) -->
+        <views:SettingsView Grid.Row="2" DataContext="{Binding Settings}">
+            <views:SettingsView.Style>
+                <Style TargetType="views:SettingsView">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveView, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="Settings">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:SettingsView.Style>
+        </views:SettingsView>
+    </Grid>
+</ui:FluentWindow>

@@ -1,0 +1,6 @@
+D:\Projects\DateReplace\.publish-preview\ContractDateReplacer.App.pdb
+D:\Projects\DateReplace\.publish-preview\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\.publish-preview\ContractDateReplacer.Infrastructure.pdb
+D:\Projects\DateReplace\.publish-preview\ContractDateReplacer.Persistence.pdb
+D:\Projects\DateReplace\.publish-preview\ContractDateReplacer.Word.pdb
+D:\Projects\DateReplace\.publish-preview\ContractDateReplacer.App.exe

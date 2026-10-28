@@ -1,0 +1,65 @@
+<UserControl x:Class="ContractDateReplacer.App.Views.AttendanceCalendarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    <Grid Margin="24,16,24,24" Background="#F8FAFC">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Border Background="White" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Padding="20,16" Margin="0,0,0,16">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="← Quay lại" Command="{Binding NavigateBackCommand}" Padding="14,8" Margin="16,0,0,0"/>
+                <StackPanel><TextBlock Text="Đổi tháng bảng chấm công" FontSize="22" FontWeight="SemiBold" Foreground="#0F172A"/>
+                    <TextBlock Text="Cập nhật ngày, thứ và cột Chủ nhật theo tháng đã chọn." Foreground="#475569" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <Border Background="White" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,16">
+                    <StackPanel IsEnabled="{Binding CanEdit}">
+                        <TextBlock Text="1. Chọn tệp và bảng" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <DockPanel LastChildFill="True"><Button Content="Chọn tệp Excel…" Command="{Binding ChooseFileCommand}" Padding="14,9" Margin="0,0,12,0"/>
+                            <TextBox Text="{Binding SourcePath, Mode=OneWay}" IsReadOnly="True" VerticalContentAlignment="Center" AutomationProperties.Name="Tệp bảng chấm công"/>
+                        </DockPanel>
+                        <TextBlock Text="Sheet / bảng nhận diện được" Margin="0,14,0,6"/>
+                        <ComboBox ItemsSource="{Binding Tables}" SelectedItem="{Binding SelectedTable}" DisplayMemberPath="DisplayName" MinHeight="36" AutomationProperties.Name="Bảng chấm công"/>
+                        <TextBlock Text="2. Chọn tháng, năm cần chuyển" FontSize="15" FontWeight="SemiBold" Margin="0,20,0,12"/>
+                        <WrapPanel>
+                            <TextBlock Text="Tháng" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <ComboBox ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" Width="100" MinHeight="36" Margin="0,0,20,0" AutomationProperties.Name="Tháng mới"/>
+                            <TextBlock Text="Năm" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Width="120" MinHeight="36" Margin="0,0,20,0" AutomationProperties.Name="Năm mới"/>
+                            <Button Content="Xem trước" Command="{Binding BuildPreviewCommand}" Padding="18,9"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <Border Background="White" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="3. Xem trước lịch mới" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <TextBlock Text="{Binding PeriodText}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                        <ItemsControl ItemsSource="{Binding PreviewDays}">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate><DataTemplate>
+                                <Border BorderBrush="#CBD5E1" BorderThickness="1" Width="48" Padding="0,8" Margin="0,0,4,6">
+                                    <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="White"/>
+                                        <Style.Triggers><DataTrigger Binding="{Binding IsSunday}" Value="True"><Setter Property="Background" Value="#9BBB59"/></DataTrigger></Style.Triggers>
+                                    </Style></Border.Style>
+                                    <StackPanel><TextBlock Text="{Binding Day}" HorizontalAlignment="Center"/><TextBlock Text="{Binding Weekday}" HorizontalAlignment="Center" Margin="0,5,0,0"/></StackPanel>
+                                </Border>
+                            </DataTemplate></ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="Công giữ theo số ngày. Cột xanh là Chủ nhật; ngày không có trong tháng sẽ để trống. Nếu ngày dư có công hoặc công thức, cần xử lý trước khi xuất." Foreground="#475569" TextWrapping="Wrap" Margin="0,12,0,8"/>
+                        <ItemsControl ItemsSource="{Binding Errors}"><ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" Foreground="#B91C1C" TextWrapping="Wrap" Margin="0,3"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        <Border Grid.Row="2" Background="White" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Padding="16,12" Margin="0,12,0,0">
+            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#334155" Margin="0,0,16,0"/>
+                <WrapPanel Grid.Column="1" VerticalAlignment="Center"><Button Content="Mở thư mục" Command="{Binding OpenOutputFolderCommand}" Padding="12,9" Margin="0,0,8,0"/>
+                    <ui:Button Content="Xuất bản sao Excel" Command="{Binding ExportCommand}" Appearance="Primary" Padding="16,9"/>
+                </WrapPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

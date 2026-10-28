@@ -1,0 +1,11 @@
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\bin\Release\net8.0\ContractDateReplacer.Core.deps.json
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\bin\Release\net8.0\ContractDateReplacer.Core.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\bin\Release\net8.0\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ContractDateReplacer.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ContractDateReplacer.Core.AssemblyInfoInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ContractDateReplacer.Core.AssemblyInfo.cs
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ContractDateReplacer.Core.csproj.CoreCompileInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ContractDateReplacer.Core.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\refint\ContractDateReplacer.Core.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Core\obj\Release\net8.0\ref\ContractDateReplacer.Core.dll

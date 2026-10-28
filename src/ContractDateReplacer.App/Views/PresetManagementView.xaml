@@ -1,0 +1,281 @@
+<UserControl x:Class="ContractDateReplacer.App.Views.PresetManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:vm="clr-namespace:ContractDateReplacer.App.ViewModels"
+             xmlns:converters="clr-namespace:ContractDateReplacer.App.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:PresetManagementViewModel}"
+             d:DesignHeight="800" d:DesignWidth="1150">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverterCustom x:Key="BoolToVisConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="24,16,24,24">
+        <Grid.RowDefinitions>
+            <!-- 0: Header -->
+            <RowDefinition Height="Auto" />
+            <!-- 1: Two Column Layout (Presets List vs Editor & Preview) -->
+            <RowDefinition Height="*" />
+            <!-- 2: Bottom Action Bar -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ROW 0: Header -->
+        <Border Grid.Row="0" Margin="0,0,0,16" Padding="20,16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="MẪU THIẾT LẬP THAY THẾ NGÀY (TEMPLATES / PRESETS)" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text="Lưu trữ cấu hình quy tắc ngày thường dùng để tái sử dụng nhanh chóng, tự động tính quan hệ ngày độc lập và phụ thuộc"
+                               FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:Button Content="+ Thêm Mẫu Mới" Appearance="Primary" FontWeight="Bold"
+                               Command="{Binding StartAddNewPresetCommand}" Margin="0,0,10,0" />
+                    <ui:Button Content="⟵ Quay Lại" Appearance="Secondary"
+                               Command="{Binding NavigateBackCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ROW 1: Two Column Layout -->
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <!-- Left: Presets List (55%) -->
+                <ColumnDefinition Width="11*" />
+                <!-- Margin -->
+                <ColumnDefinition Width="16" />
+                <!-- Right: Form Editor & Preview (45%) -->
+                <ColumnDefinition Width="9*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT COLUMN: Presets List -->
+            <Border Grid.Column="0" Padding="16" CornerRadius="8"
+                    Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="DANH SÁCH MẪU THIẾT LẬP CÓ SẴN" FontWeight="Bold" FontSize="13" Margin="0,0,0,12" />
+
+                    <!-- Presets ScrollViewer -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Presets}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:PresetItemViewModel}">
+                                    <Border Margin="0,0,0,10" Padding="14,12" CornerRadius="6"
+                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Row 0: Name, Badges and Actions -->
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" />
+                                                    <ui:Badge Content="{Binding BadgeText}" Appearance="{Binding BadgeAppearance}" Margin="8,0,0,0" />
+                                                    <TextBlock Text="{Binding SuffixPattern, StringFormat='(Hậu tố: {0})'}" FontSize="11"
+                                                               Foreground="{DynamicResource TextFillColorTertiaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                    <!-- Đặt làm mặc định -->
+                                                    <ui:Button Content="★ Mặc định" Appearance="Secondary" FontSize="11" Padding="8,3"
+                                                               Command="{Binding DataContext.SetDefaultPresetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                               CommandParameter="{Binding}" Margin="0,0,6,0" />
+
+                                                    <!-- Sửa -->
+                                                    <ui:Button Content="Sửa" Appearance="Secondary" FontSize="11" Padding="8,3"
+                                                               Command="{Binding DataContext.StartEditPresetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                               CommandParameter="{Binding}" Margin="0,0,6,0" />
+
+                                                    <!-- Xóa (chỉ custom) -->
+                                                    <ui:Button Content="Xóa" Appearance="Danger" FontSize="11" Padding="8,3"
+                                                               Command="{Binding DataContext.DeletePresetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                               CommandParameter="{Binding}"
+                                                               Visibility="{Binding CanDelete, Converter={StaticResource BoolToVisConverter}}" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <!-- Row 1: Description -->
+                                            <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="12"
+                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Margin="0,6,0,0" />
+
+                                            <!-- Row 2: Rules Summary Text -->
+                                            <Border Grid.Row="2" Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}"
+                                                    CornerRadius="4" Padding="8,4" Margin="0,8,0,0">
+                                                <TextBlock Text="{Binding RulesSummaryText}" FontSize="11"
+                                                           Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" TextWrapping="Wrap" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT COLUMN: Form Editor & Live Preview -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <!-- Form Editor -->
+                    <RowDefinition Height="*" />
+                    <!-- Margin -->
+                    <RowDefinition Height="16" />
+                    <!-- Preview -->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- TOP: Form Editor Card -->
+                <Border Grid.Row="0" Padding="16" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <ui:SymbolIcon Symbol="Edit24" FontSize="18" Margin="0,0,8,0" />
+                                <TextBlock Text="{Binding EditorTitle}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <!-- Tên mẫu -->
+                            <TextBlock Text="Tên mẫu thiết lập:" FontSize="12" Margin="0,0,0,4" />
+                            <ui:TextBox Text="{Binding EditingName, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="VD: Gia hạn hợp đồng dịch vụ 2026..." Margin="0,0,0,10" />
+
+                            <!-- Mô tả -->
+                            <TextBlock Text="Mô tả tóm tắt:" FontSize="12" Margin="0,0,0,4" />
+                            <ui:TextBox Text="{Binding EditingDescription, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="VD: Đổi ngày ký hôm nay, kết thúc sang năm sau..." Margin="0,0,0,10" />
+
+                            <!-- Hậu tố file lưu -->
+                            <TextBlock Text="Hậu tố tên file đầu ra (Suffix):" FontSize="12" Margin="0,0,0,4" />
+                            <ui:TextBox Text="{Binding EditingSuffixPattern, UpdateSourceTrigger=PropertyChanged}"
+                                        PlaceholderText="VD: _2026, _GiaHan..." Margin="0,0,0,10" />
+
+                            <!-- Quy tắc Ngày Ký -->
+                            <TextBlock Text="Quy tắc Ngày Ký (Sign Date):" FontSize="12" Margin="0,0,0,4" />
+                            <TextBlock Text="Đặt thành: Ngày hôm nay (CurrentDate)" FontWeight="SemiBold" FontSize="12"
+                                       Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" Margin="0,0,0,10" />
+
+                            <!-- Quy tắc Ngày Bắt Đầu -->
+                            <TextBlock Text="Quy tắc Ngày Bắt Đầu (Start Date):" FontSize="12" Margin="0,0,0,4" />
+                            <TextBlock Text="Đặt thành: Ngày hôm nay (CurrentDate)" FontWeight="SemiBold" FontSize="12"
+                                       Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" Margin="0,0,0,10" />
+
+                            <!-- Quy tắc Ngày Kết Thúc -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Ngày Kết Thúc (Offset số năm từ Ngày bắt đầu):" FontSize="12" />
+                                <TextBlock Grid.Column="1" Text="{Binding EndDateOffsetYears, StringFormat='+{0} năm'}" FontWeight="Bold" />
+                            </Grid>
+                            <Slider Minimum="1" Maximum="5" Value="{Binding EndDateOffsetYears, Mode=TwoWay}" Margin="0,0,0,14" />
+
+                            <!-- Checkbox đặt mặc định -->
+                            <CheckBox Content="Đặt mẫu này làm mặc định khi mở ứng dụng" IsChecked="{Binding EditingIsDefault, Mode=TwoWay}" Margin="0,0,0,14" />
+
+                            <!-- Action Buttons -->
+                            <StackPanel Orientation="Horizontal">
+                                <ui:Button Content="💾 Lưu Mẫu Thiết Lập" Appearance="Primary" FontWeight="Bold"
+                                           Command="{Binding SavePresetCommand}" Margin="0,0,10,0" />
+                                <ui:Button Content="Hủy" Appearance="Secondary"
+                                           Command="{Binding CancelEditCommand}"
+                                           Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisConverter}}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+                <!-- BOTTOM: Live Preview Card -->
+                <Border Grid.Row="2" Padding="16" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <ui:SymbolIcon Symbol="Eye24" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            <TextBlock Text="KẾT QUẢ TÍNH TOÁN MINH HỌA (PREVIEW)" FontWeight="Bold" FontSize="13" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <TextBlock Text="Mô phỏng áp dụng mẫu đang chọn lên một hợp đồng dịch vụ chuẩn:" FontSize="11"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,10" />
+
+                        <!-- Ngày Ký -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Ngày Ký Hợp Đồng:" FontSize="12" />
+                            <TextBlock Grid.Column="1" Text="{Binding PreviewSignDateText}" FontWeight="Bold" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                        </Grid>
+
+                        <!-- Ngày Bắt Đầu -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Ngày Bắt Đầu Thực Hiện:" FontSize="12" />
+                            <TextBlock Grid.Column="1" Text="{Binding PreviewStartDateText}" FontWeight="Bold" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                        </Grid>
+
+                        <!-- Ngày Kết Thúc -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Ngày Kết Thúc / Hết Hạn:" FontSize="12" />
+                            <TextBlock Grid.Column="1" Text="{Binding PreviewEndDateText}" FontWeight="Bold" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- ROW 2: Bottom Action Bar -->
+        <Border Grid.Row="2" Padding="20,12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Feedback text -->
+                <TextBlock Grid.Column="0" Text="{Binding FeedbackMessage}" FontSize="12"
+                           Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" FontWeight="SemiBold" VerticalAlignment="Center" />
+
+                <!-- Action Button -->
+                <ui:Button Grid.Column="1" Content="⟵ Quay Về Trang Chủ" Appearance="Primary"
+                           Command="{Binding NavigateBackCommand}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,298 @@
+<UserControl x:Class="ContractDateReplacer.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:vm="clr-namespace:ContractDateReplacer.App.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
+             d:DesignHeight="950" d:DesignWidth="1100">
+
+    <Grid Margin="24,16,24,24">
+        <Grid.RowDefinitions>
+            <!-- 0: Header -->
+            <RowDefinition Height="Auto" />
+            <!-- 1: Scrollable Settings Sections -->
+            <RowDefinition Height="*" />
+            <!-- 2: Bottom Action Bar -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ROW 0: Header -->
+        <Border Grid.Row="0" Margin="0,0,0,16" Padding="20,16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="CÀI ĐẶT HỆ THỐNG (SYSTEM SETTINGS)" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text="Cấu hình hiệu năng xử lý song song, an toàn dữ liệu, sao lưu, quy tắc thay thế và bảo mật tuân thủ"
+                               FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:Button Content="💾 Lưu Cài Đặt" Appearance="Primary" FontWeight="Bold"
+                               Command="{Binding SaveSettingsCommand}" Margin="0,0,10,0" />
+                    <ui:Button Content="↺ Khôi Phục Mặc Định" Appearance="Secondary"
+                               Command="{Binding ResetDefaultsCommand}" Margin="0,0,10,0" />
+                    <ui:Button Content="⟵ Quay Lại" Appearance="Secondary"
+                               Command="{Binding NavigateBackCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ROW 1: Scrollable Settings Sections -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,16">
+            <StackPanel>
+                <!-- SECTION 1: Giao diện & Ngôn ngữ -->
+                <Border Margin="0,0,0,14" Padding="18" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:SymbolIcon Symbol="PaintBrush24" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            <TextBlock Text="1. GIAO DIỆN &amp; NGÔN NGỮ (GENERAL)" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Giao diện chủ đề (Theme):" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Tùy chọn tông màu sáng/tối hoặc đồng bộ theo Windows"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Ngôn ngữ hiển thị (Language):" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Hỗ trợ đầy đủ tiếng Việt chuyên sâu cho hợp đồng pháp lý"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <CheckBox Content="Tự động kiểm tra bản cập nhật mới khi khởi động" IsChecked="{Binding AutoCheckUpdates, Mode=TwoWay}" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- SECTION 2: Hiệu năng & Xử lý -->
+                <Border Margin="0,0,0,14" Padding="18" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:SymbolIcon Symbol="TopSpeed24" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            <TextBlock Text="2. HIỆU NĂNG &amp; XỬ LÝ (PERFORMANCE &amp; PROCESSING)" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Max Parallelism -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Số luồng xử lý song song tối đa:" VerticalAlignment="Center" />
+                            <Slider Grid.Column="1" Minimum="1" Maximum="16" Value="{Binding MaxDegreeOfParallelism, Mode=TwoWay}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Text="{Binding MaxDegreeOfParallelism, StringFormat='{}{0} luồng'}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock Grid.Column="3" Text="Xử lý hàng loạt tài liệu đồng thời tối ưu CPU"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        </Grid>
+
+                        <!-- Timeout -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Thời gian quét tối đa mỗi tệp (giây):" VerticalAlignment="Center" />
+                            <ui:TextBox Grid.Column="1" Text="{Binding ScanTimeoutSecondsPerFile, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Tránh bị treo ứng dụng khi gặp file tài liệu dung lượng cực lớn"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <CheckBox Content="Bắt buộc kiểm tra tính hợp lệ OpenXML Schema sau khi thay thế ngày (An toàn 100%)"
+                                  IsChecked="{Binding EnableOpenXmlValidation, Mode=TwoWay}" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- SECTION 3: An toàn & Sao lưu -->
+                <Border Margin="0,0,0,14" Padding="18" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:SymbolIcon Symbol="Shield24" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            <TextBlock Text="3. AN TOÀN &amp; SAO LƯU (SAFETY &amp; BACKUP)" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Retention Days -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Thời gian lưu trữ bản sao lưu (ngày):" VerticalAlignment="Center" />
+                            <ui:TextBox Grid.Column="1" Text="{Binding BackupRetentionDays, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Tự động dọn dẹp các bản sao lưu .bak cũ hơn số ngày này"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <!-- Confidence Threshold Slider -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Ngưỡng độ tin cậy cảnh báo:" VerticalAlignment="Center" />
+                            <Slider Grid.Column="1" Minimum="0.5" Maximum="1.0" SmallChange="0.05" LargeChange="0.1" Value="{Binding ConfidenceThreshold, Mode=TwoWay}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Text="{Binding ConfidenceThreshold, StringFormat='{}{0:P0}'}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0" />
+                            <TextBlock Grid.Column="3" Text="Các ngày có điểm tin cậy dưới mức này sẽ được gắn cờ cảnh báo"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        </Grid>
+
+                        <CheckBox Content="Tự động sao lưu bản gốc an toàn (.bak) và tính SHA256 trước khi sửa file"
+                                  IsChecked="{Binding AutoBackupBeforeReplacement, Mode=TwoWay}" Margin="0,4,0,4" />
+
+                        <CheckBox Content="Đối soát mã băm SHA256 sau khi khôi phục (Từ chối nếu checksum không khớp)"
+                                  IsChecked="{Binding VerifyChecksumAfterRestore, Mode=TwoWay}" Margin="0,0,0,4" />
+
+                        <CheckBox Content="Hiện cảnh báo trực quan đối với các ngày có độ tin cậy thấp"
+                                  IsChecked="{Binding WarnOnLowConfidenceDates, Mode=TwoWay}" Margin="0,0,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- SECTION 4: Mặc định thay thế ngày -->
+                <Border Margin="0,0,0,14" Padding="18" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:SymbolIcon Symbol="Calendar24" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            <TextBlock Text="4. MẶC ĐỊNH THAY THẾ NGÀY (DATE REPLACEMENT DEFAULTS)" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Default Date Format -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Định dạng ngày mặc định:" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableDateFormats}" SelectedItem="{Binding DefaultDateFormat, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="VD: 02/09/2026 hoặc ngày 02 tháng 09 năm 2026"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <!-- Default Output Mode -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Chế độ xuất tệp mặc định:" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableOutputModes}" SelectedItem="{Binding DefaultOutputMode, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Thêm hậu tố (Suffix), lưu vào thư mục mới hoặc ghi đè tại chỗ"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <!-- Default Suffix -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Hậu tố tên tệp mặc định:" VerticalAlignment="Center" />
+                            <ui:TextBox Grid.Column="1" Text="{Binding DefaultSuffixPattern, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Áp dụng khi chọn chế độ xuất thêm hậu tố (VD: HopDong_2026.docx)"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <!-- Default Output Folder -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Thư mục xuất tệp mặc định:" VerticalAlignment="Center" />
+                            <ui:TextBox Grid.Column="1" Text="{Binding DefaultOutputFolder, Mode=TwoWay}" PlaceholderText="(Để trống để xuất cùng thư mục file gốc)" Margin="0,0,10,0" />
+                            <ui:Button Grid.Column="2" Content="Chọn..." Command="{Binding BrowseOutputFolderCommand}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- SECTION 5: Bảo mật & Kiểm toán -->
+                <Border Margin="0,0,0,4" Padding="18" CornerRadius="8"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:SymbolIcon Symbol="LockClosed24" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            <TextBlock Text="5. BẢO MẬT &amp; KIỂM TOÁN (PRIVACY &amp; COMPLIANCE)" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Thời gian lưu nhật ký kiểm toán (ngày):" VerticalAlignment="Center" />
+                            <ui:TextBox Grid.Column="1" Text="{Binding AuditLogRetentionDays, Mode=TwoWay}" />
+                            <TextBlock Grid.Column="2" Text="Quy định thời hạn lưu trữ vết kiểm toán trước khi dọn dẹp"
+                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0" />
+                        </Grid>
+
+                        <CheckBox Content="Tự động ẩn thông tin nhân thân (Số CCCD, Họ tên cá nhân) khi xuất báo cáo nhật ký kiểm toán"
+                                  IsChecked="{Binding MaskPersonalDataInLogs, Mode=TwoWay}" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ROW 2: Bottom Action Bar -->
+        <Border Grid.Row="2" Padding="20,12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Feedback message -->
+                <TextBlock Grid.Column="0" Text="{Binding FeedbackMessage}" FontSize="12"
+                           Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" FontWeight="SemiBold" VerticalAlignment="Center" />
+
+                <!-- Buttons -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <ui:Button Content="💾 Lưu Cài Đặt" Appearance="Primary" FontWeight="Bold"
+                               Command="{Binding SaveSettingsCommand}" Margin="0,0,10,0" />
+                    <ui:Button Content="↺ Khôi Phục Mặc Định" Appearance="Secondary"
+                               Command="{Binding ResetDefaultsCommand}" Margin="0,0,10,0" />
+                    <ui:Button Content="⟵ Quay Về Trang Chủ" Appearance="Secondary"
+                               Command="{Binding NavigateBackCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

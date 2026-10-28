@@ -1,0 +1,15 @@
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\bin\Debug\net8.0\ContractDateReplacer.Persistence.deps.json
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\bin\Debug\net8.0\ContractDateReplacer.Persistence.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\bin\Debug\net8.0\ContractDateReplacer.Persistence.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\bin\Debug\net8.0\ContractDateReplacer.Core.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\bin\Debug\net8.0\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.csproj.AssemblyReference.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.AssemblyInfoInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.AssemblyInfo.cs
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.csproj.CoreCompileInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\Contract.E21CE6D9.Up2Date
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\refint\ContractDateReplacer.Persistence.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ContractDateReplacer.Persistence.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Persistence\obj\Debug\net8.0\ref\ContractDateReplacer.Persistence.dll

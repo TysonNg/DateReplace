@@ -1,0 +1,7 @@
+D:\Projects\DateReplace\Publish_App_Excel\ContractDateReplacer.App.pdb
+D:\Projects\DateReplace\Publish_App_Excel\e_sqlite3.dll
+D:\Projects\DateReplace\Publish_App_Excel\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\Publish_App_Excel\ContractDateReplacer.Infrastructure.pdb
+D:\Projects\DateReplace\Publish_App_Excel\ContractDateReplacer.Persistence.pdb
+D:\Projects\DateReplace\Publish_App_Excel\ContractDateReplacer.Word.pdb
+D:\Projects\DateReplace\Publish_App_Excel\ContractDateReplacer.App.exe

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "cHNl76UgDQc=",
+  "success": true,
+  "projectFilePath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\immin\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.30\\microsoft.net.illink.tasks.8.0.30.nupkg.sha512"
+  ],
+  "logs": []
+}

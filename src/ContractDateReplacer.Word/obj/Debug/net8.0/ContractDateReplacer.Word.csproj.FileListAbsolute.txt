@@ -1,0 +1,15 @@
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\bin\Debug\net8.0\ContractDateReplacer.Word.deps.json
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\bin\Debug\net8.0\ContractDateReplacer.Word.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\bin\Debug\net8.0\ContractDateReplacer.Word.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\bin\Debug\net8.0\ContractDateReplacer.Core.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\bin\Debug\net8.0\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.csproj.AssemblyReference.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.AssemblyInfoInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.AssemblyInfo.cs
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.csproj.CoreCompileInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\Contract.2D5EA845.Up2Date
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\refint\ContractDateReplacer.Word.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ContractDateReplacer.Word.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Word\obj\Debug\net8.0\ref\ContractDateReplacer.Word.dll

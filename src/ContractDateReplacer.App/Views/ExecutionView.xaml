@@ -1,0 +1,210 @@
+<UserControl x:Class="ContractDateReplacer.App.Views.ExecutionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:vm="clr-namespace:ContractDateReplacer.App.ViewModels"
+             xmlns:converters="clr-namespace:ContractDateReplacer.App.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:ExecutionViewModel}"
+             d:DesignHeight="750" d:DesignWidth="1100">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverterCustom x:Key="BoolToVisConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InvBoolToVisConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="24,16,24,24">
+        <Grid.RowDefinitions>
+            <!-- 0: Header & Overall Progress Bar -->
+            <RowDefinition Height="Auto" />
+            <!-- 1: Two Column Layout: File Statuses & Live Logs -->
+            <RowDefinition Height="*" />
+            <!-- 2: Bottom Action Bar -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ROW 0: Header & Progress Bar -->
+        <Border Grid.Row="0" Margin="0,0,0,16" Padding="20,16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Title & Current Status -->
+                <Grid Grid.Row="0" Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="TIẾN TRÌNH THAY THẾ &amp; XÁC MINH" FontSize="18" FontWeight="Bold" />
+                        <TextBlock Text="{Binding CurrentProcessingText}" FontSize="13"
+                                   Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" FontWeight="SemiBold" Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <!-- Percentage Indicator -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ProgressPercentage, StringFormat='{}{0:F0}%'}"
+                                   FontSize="24" FontWeight="Bold" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Modern Progress Bar -->
+                <ProgressBar Grid.Row="1" Value="{Binding ProgressPercentage}" Maximum="100" Height="8"
+                             IsIndeterminate="{Binding IsRunning, Mode=OneWay, Converter={x:Null}}" Margin="0,0,0,8" />
+
+                <!-- Summary Info -->
+                <TextBlock Grid.Row="2" Text="{Binding SummaryResultsText}" FontSize="12"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </Grid>
+        </Border>
+
+        <!-- ROW 1: Two-column Split (Files Status vs Live Activity Log) -->
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <!-- Left: Status per file -->
+                <ColumnDefinition Width="*" />
+                <!-- Splitter / Margin -->
+                <ColumnDefinition Width="16" />
+                <!-- Right: Activity Log -->
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT COLUMN: File Status List -->
+            <Border Grid.Column="0" Padding="16" CornerRadius="8"
+                    Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
+                        <ui:SymbolIcon Symbol="DocumentBulletList24" FontSize="18" Margin="0,0,8,0" />
+                        <TextBlock Text="TRẠNG THÁI TỪNG FILE" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ExecutionFiles}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:FileExecutionItemViewModel}">
+                                    <Border Margin="0,0,0,10" Padding="14,12" CornerRadius="6"
+                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Status Icon -->
+                                            <ui:SymbolIcon Grid.Column="0" Symbol="{Binding StatusIcon}"
+                                                           FontSize="20" VerticalAlignment="Center" Margin="0,0,12,0" />
+
+                                            <!-- File Info & Text -->
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding FileName}" FontWeight="SemiBold" FontSize="13" />
+                                                <TextBlock Text="{Binding StatusText}" FontSize="12"
+                                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,2,0,0" />
+                                            </StackPanel>
+
+                                            <!-- Status Badge -->
+                                            <ui:Badge Grid.Column="2" Content="{Binding Status}"
+                                                      Appearance="{Binding StatusAppearance}" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT COLUMN: Realtime Terminal Activity Log -->
+            <Border Grid.Column="2" Padding="16" CornerRadius="8"
+                    Background="#FF0D1117" BorderBrush="#FF30363D" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Terminal Title Bar -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <ui:SymbolIcon Symbol="Code24" Foreground="#FF58A6FF" FontSize="16" Margin="0,0,8,0" />
+                            <TextBlock Text="NHẬT KÝ HOẠT ĐỘNG (REALTIME LOG)" FontWeight="Bold" FontSize="13" Foreground="#FFC9D1D9" />
+                        </StackPanel>
+
+                        <ui:Badge Grid.Column="1" Content="{Binding ActivityLogs.Count, StringFormat='{}{0} logs'}"
+                                  Appearance="Secondary" />
+                    </Grid>
+
+                    <!-- Logs List with Monospace Font -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ActivityLogs}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:LogEntryItem}">
+                                    <TextBlock Text="{Binding FormattedText}" FontFamily="Consolas, Cascadia Code, Courier New"
+                                               FontSize="12" LineHeight="18" TextWrapping="Wrap"
+                                               Foreground="{Binding ForegroundColor}" Margin="0,2,0,2" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ROW 2: Bottom Action Bar -->
+        <Border Grid.Row="2" Padding="20,14" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Info -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding OutputDirectoryPath, StringFormat='Thư mục lưu file: {0}'}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                               TextTrimming="CharacterEllipsis" MaxWidth="500" />
+                </StackPanel>
+
+                <!-- Right Action Buttons -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <ui:Button Content="← Quay lại xem trước" Appearance="Secondary"
+                               Command="{Binding NavigateBackCommand}"
+                               Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisConverter}}" Margin="0,0,10,0" />
+                    <!-- Cancel Button (Only while running) -->
+                    <ui:Button Content="✕ HỦY TIẾN TRÌNH" Appearance="Danger"
+                               Command="{Binding CancelCommand}"
+                               Visibility="{Binding IsRunning, Converter={StaticResource BoolToVisConverter}}" Margin="0,0,10,0" />
+
+                    <!-- Post-completion Buttons -->
+                    <ui:Button Content="📁 Mở Thư Mục Chứa File Mới" Appearance="Secondary"
+                               Command="{Binding OpenOutputFolderCommand}"
+                               Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisConverter}}" Margin="0,0,10,0" />
+
+                    <ui:Button Content="📊 Xem Báo Cáo Chi Tiết →" Appearance="Primary" FontWeight="Bold"
+                               Command="{Binding ViewReportCommand}"
+                               Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisConverter}}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

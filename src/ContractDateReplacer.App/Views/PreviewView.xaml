@@ -1,0 +1,408 @@
+<UserControl x:Class="ContractDateReplacer.App.Views.PreviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:vm="clr-namespace:ContractDateReplacer.App.ViewModels"
+             xmlns:converters="clr-namespace:ContractDateReplacer.App.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:PreviewViewModel}"
+             d:DesignHeight="750" d:DesignWidth="1100"
+             TextElement.Foreground="#0F172A">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverterCustom x:Key="BoolToVisConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InvBoolToVisConverter" />
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Padding" Value="10,6" />
+        </Style>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- ACTION BUTTON STYLES                          -->
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- White Neutral Button (Quay lại) -->
+        <Style x:Key="BtnActionWhite" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="Foreground" Value="#334155" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#F1F5F9" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#94A3B8" />
+                                <Setter Property="Foreground" Value="#0F172A" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#E2E8F0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Primary Blue Button (Thực hiện thay thế) -->
+        <Style x:Key="BtnActionPrimaryBlue" TargetType="Button">
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="BorderBrush" Value="#1D4ED8" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="Padding" Value="18,8" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#1D4ED8" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#1E40AF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#1E3A8A" />
+                            </Trigger>
+                            <!-- Clear, high-contrast disabled state (not hidden or washed out) -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="bd" Property="Background" Value="#E2E8F0" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#CBD5E1" />
+                                <Setter Property="Foreground" Value="#64748B" />
+                                <Setter TargetName="bd" Property="Opacity" Value="1.0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Mode Toggle Pill Radio Button -->
+        <Style x:Key="ViewModePillRadio" TargetType="RadioButton">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="bd" Background="#FFFFFF" BorderBrush="#CBD5E1" BorderThickness="1.5" CornerRadius="16" Padding="12,6">
+                            <ContentPresenter x:Name="cp" HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="#475569" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#EFF6FF" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#93C5FD" />
+                                <Setter TargetName="cp" Property="TextElement.Foreground" Value="#1D4ED8" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#2563EB" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#1D4ED8" />
+                                <Setter TargetName="cp" Property="TextElement.Foreground" Value="#FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="24,16,24,24">
+        <Grid.RowDefinitions>
+            <!-- 0: Header & Stats -->
+            <RowDefinition Height="Auto" />
+            <!-- 1: View Mode & Filters Toolbar -->
+            <RowDefinition Height="Auto" />
+            <!-- 2: Diff List Content -->
+            <RowDefinition Height="*" />
+            <!-- 3: Confirmation & Bottom Navigation Bar -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- ROW 0: Header & Stats                          -->
+        <!-- ══════════════════════════════════════════════ -->
+        <Border Grid.Row="0" Margin="0,0,0,12" Padding="18,14" 
+                Background="#FFFFFF"
+                CornerRadius="10" BorderBrush="#E2E8F0" BorderThickness="1.5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Background="#2563EB" CornerRadius="8" Width="32" Height="32" Margin="0,0,12,0">
+                            <ui:SymbolIcon Symbol="DocumentSync24" FontSize="17" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="XEM TRƯỚC THAY ĐỔI (DIFF PREVIEW)" FontSize="18" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding SummaryStatsText}" FontSize="13"
+                               Foreground="#2563EB" FontWeight="SemiBold"
+                               TextWrapping="Wrap" Margin="44,4,12,0" />
+                </StackPanel>
+
+                <!-- File Filter Dropdown -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Lọc tệp:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="12.5" FontWeight="SemiBold"
+                               Foreground="#475569" />
+                    <Border Background="#FFFFFF" BorderBrush="#CBD5E1" BorderThickness="1.5" CornerRadius="8" Padding="2">
+                        <ComboBox ItemsSource="{Binding FileFilterOptions}"
+                                  SelectedItem="{Binding SelectedFileFilter}"
+                                  Width="260" FontSize="12.5" FontWeight="SemiBold"
+                                  Foreground="#0F172A" BorderThickness="0" Background="Transparent" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- ROW 1: Controls Toolbar (Side-by-side vs Inline) -->
+        <!-- ══════════════════════════════════════════════ -->
+        <Border Grid.Row="1" Margin="0,0,0,12" Padding="14,10" 
+                CornerRadius="10" BorderBrush="#E2E8F0" BorderThickness="1.5"
+                Background="#F8FAFC">
+            <WrapPanel VerticalAlignment="Center">
+                <!-- View Mode Selector -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,24,6">
+                    <TextBlock Text="Chế độ xem:" VerticalAlignment="Center" FontWeight="Bold" Foreground="#334155" Margin="0,0,12,0" />
+                    <RadioButton Content="Side-by-side (Song song)" IsChecked="{Binding IsSideBySideMode}"
+                                 Style="{StaticResource ViewModePillRadio}"
+                                 Command="{Binding SetSideBySideModeCommand}" />
+                    <RadioButton Content="Inline Diff (Dòng liền)" IsChecked="{Binding IsInlineMode}"
+                                 Style="{StaticResource ViewModePillRadio}"
+                                 Command="{Binding SetInlineModeCommand}" />
+                </StackPanel>
+
+                <!-- Only Show Changed Checkbox -->
+                <Border Background="#FFFFFF" BorderBrush="#CBD5E1" BorderThickness="1.5" CornerRadius="8" Padding="10,6" Margin="0,0,20,6" VerticalAlignment="Center">
+                    <CheckBox Content="Chỉ hiển thị các dòng có thay đổi"
+                              IsChecked="{Binding OnlyShowChanged}" FontWeight="SemiBold"
+                              Foreground="#1E293B" VerticalAlignment="Center" Cursor="Hand" />
+                </Border>
+
+                <!-- Search Box (Explicit Dark Text & Caret) -->
+                <Border Background="#FFFFFF" BorderBrush="#CBD5E1" BorderThickness="1.5" CornerRadius="8" Padding="2" Margin="0,0,0,6" VerticalAlignment="Center">
+                    <ui:TextBox Width="240" PlaceholderText="Tìm kiếm thay đổi..."
+                                Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
+                                Icon="{ui:SymbolIcon Search24}" ClearButtonEnabled="True"
+                                FontSize="12.5" Foreground="#0F172A" CaretBrush="#0F172A"
+                                BorderThickness="0" Background="Transparent" />
+                </Border>
+            </WrapPanel>
+        </Border>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- ROW 2: Diff Items List                         -->
+        <!-- ══════════════════════════════════════════════ -->
+        <Grid Grid.Row="2" Margin="0,0,0,12">
+            <!-- Empty State -->
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Visibility="{Binding HasDiffItems, Converter={StaticResource InvBoolToVisConverter}}">
+                <Border Width="64" Height="64" CornerRadius="32" Background="#EFF6FF" 
+                        HorizontalAlignment="Center" Margin="0,0,0,12">
+                    <ui:SymbolIcon Symbol="DocumentCheckmark24" FontSize="30" Foreground="#2563EB" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <TextBlock Text="Không có thay đổi phù hợp để hiển thị"
+                           FontSize="16" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,4" HorizontalAlignment="Center" />
+                <TextBlock Text="Hãy kiểm tra lựa chọn ngày hoặc điều chỉnh bộ lọc hiện tại"
+                           Foreground="#64748B" HorizontalAlignment="Center"
+                           TextAlignment="Center" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding FilteredDiffItemsView}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:DiffItemViewModel}">
+                            <!-- Diff Card Container -->
+                            <Border Margin="0,0,0,12" Padding="16,14" CornerRadius="10"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#E2E8F0"
+                                    BorderThickness="1.5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <!-- Header: Location, File, Classification -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- Diff Content (Side-by-side or Inline) -->
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Location & Metadata Header -->
+                                    <Grid Grid.Row="0" Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <WrapPanel Grid.Column="0" VerticalAlignment="Center">
+                                            <Border Background="#EFF6FF" BorderBrush="#BFDBFE" BorderThickness="1" CornerRadius="5" Padding="8,3" Margin="0,0,10,0">
+                                                <TextBlock Text="{Binding ClassificationTypeName}" FontWeight="Bold" FontSize="11" Foreground="#1D4ED8" />
+                                            </Border>
+                                            <TextBlock Text="{Binding FileName}" FontWeight="Bold" FontSize="14" Foreground="#0F172A" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="•" Foreground="#94A3B8" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding SourceLocation}" FontSize="12" FontWeight="SemiBold"
+                                                       Foreground="#64748B" VerticalAlignment="Center" />
+                                        </WrapPanel>
+
+                                        <!-- Diff Status Badge -->
+                                        <Border Grid.Column="1" CornerRadius="6" Padding="10,4" VerticalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#F1F5F9" />
+                                                    <Setter Property="BorderBrush" Value="#CBD5E1" />
+                                                    <Setter Property="BorderThickness" Value="1.5" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChanged}" Value="True">
+                                                            <Setter Property="Background" Value="#DCFCE7" />
+                                                            <Setter Property="BorderBrush" Value="#22C55E" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding DiffStatusText}" FontSize="11" FontWeight="Bold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="#64748B" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsChanged}" Value="True">
+                                                                <Setter Property="Foreground" Value="#15803D" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- VIEW OPTION A: Side-by-Side (GitHub Style) -->
+                                    <Grid Grid.Row="1" Visibility="{Binding DataContext.IsSideBySideMode, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisConverter}}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="14" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Left Column: TRƯỚC (GỐC - ĐỎ HỒNG NHẸ) -->
+                                        <Border Grid.Column="0" Padding="14,10" CornerRadius="8"
+                                                Background="#FEF2F2" BorderBrush="#FECACA" BorderThickness="1.5">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                                    <ui:SymbolIcon Symbol="Dismiss24" Foreground="#DC2626" FontSize="15" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="TRƯỚC KHI THAY ĐỔI" FontSize="11" FontWeight="Bold" Foreground="#DC2626" VerticalAlignment="Center" />
+                                                </StackPanel>
+
+                                                <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="21" Foreground="#1E293B">
+                                                    <Run Text="{Binding ContextBefore, Mode=OneWay}" />
+                                                    <Run Text=" " />
+                                                    <Run Text="{Binding OldDateText, Mode=OneWay}"
+                                                         Foreground="#B91C1C" FontWeight="Bold" TextDecorations="Strikethrough" />
+                                                    <Run Text=" " />
+                                                    <Run Text="{Binding ContextAfter, Mode=OneWay}" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!-- Right Column: SAU (MỚI - XANH BẠC HÀ NHẸ) -->
+                                        <Border Grid.Column="2" Padding="14,10" CornerRadius="8"
+                                                Background="#F0FDF4" BorderBrush="#BBF7D0" BorderThickness="1.5">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                                    <ui:SymbolIcon Symbol="Checkmark24" Foreground="#16A34A" FontSize="15" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="SAU KHI THAY ĐỔI" FontSize="11" FontWeight="Bold" Foreground="#16A34A" VerticalAlignment="Center" />
+                                                </StackPanel>
+
+                                                <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="21" Foreground="#1E293B">
+                                                    <Run Text="{Binding ContextBefore, Mode=OneWay}" />
+                                                    <Run Text=" " />
+                                                    <Run Text="{Binding NewDateText, Mode=OneWay}"
+                                                         Foreground="#15803D" FontWeight="Bold" />
+                                                    <Run Text=" " />
+                                                    <Run Text="{Binding ContextAfter, Mode=OneWay}" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- VIEW OPTION B: Inline Diff (Single Flow) -->
+                                    <Border Grid.Row="1" Padding="14,12" CornerRadius="8"
+                                            Background="#F8FAFC"
+                                            BorderBrush="#E2E8F0" BorderThickness="1.5"
+                                            Visibility="{Binding DataContext.IsInlineMode, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisConverter}}">
+                                        <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="24" Foreground="#1E293B">
+                                            <Run Text="{Binding ContextBefore, Mode=OneWay}" />
+                                            <Run Text=" [ " Foreground="#DC2626" FontWeight="Bold" />
+                                            <Run Text="{Binding OldDateText, Mode=OneWay}" Foreground="#DC2626" FontWeight="Bold" TextDecorations="Strikethrough" />
+                                            <Run Text=" ] " Foreground="#DC2626" FontWeight="Bold" />
+                                            <Run Text=" ➔ [ " Foreground="#16A34A" FontWeight="Bold" />
+                                            <Run Text="{Binding NewDateText, Mode=OneWay}" Foreground="#16A34A" FontWeight="Bold" />
+                                            <Run Text=" ] " Foreground="#16A34A" FontWeight="Bold" />
+                                            <Run Text="{Binding ContextAfter, Mode=OneWay}" />
+                                        </TextBlock>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- ROW 3: Confirmation & Bottom Action Bar        -->
+        <!-- ══════════════════════════════════════════════ -->
+        <Border Grid.Row="3" Padding="18,14" Background="#FFFFFF"
+                CornerRadius="10" BorderBrush="#E2E8F0" BorderThickness="1.5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Mandatory Checkbox Confirmation in Amber Warning Box -->
+                <Border Grid.Column="0" Background="#FFFBEB" BorderBrush="#FDE68A" BorderThickness="1.5"
+                        CornerRadius="8" Padding="12,8" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <CheckBox IsChecked="{Binding IsConfirmedByUser}" VerticalAlignment="Center" Cursor="Hand">
+                        <TextBlock TextWrapping="Wrap" FontSize="13" FontWeight="SemiBold" Foreground="#92400E">
+                            <Run Text="Tôi đã kiểm tra kỹ các vị trí thay đổi ở trên và " />
+                            <Run Text="đồng ý thực hiện thay thế trên các tệp Word" FontWeight="Bold" Foreground="#B45309" />
+                        </TextBlock>
+                    </CheckBox>
+                </Border>
+
+                <!-- Action Buttons -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource BtnActionWhite}" Content="← Quay lại rà soát"
+                            Command="{Binding NavigateBackCommand}" Margin="0,0,10,0" Padding="16,8" />
+
+                    <Button Style="{StaticResource BtnActionPrimaryBlue}" Content="⚡ Thực hiện thay thế ngày"
+                            Command="{Binding ExecuteReplacementCommand}"
+                            IsEnabled="{Binding CanExecuteReplacement}" Padding="20,8" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

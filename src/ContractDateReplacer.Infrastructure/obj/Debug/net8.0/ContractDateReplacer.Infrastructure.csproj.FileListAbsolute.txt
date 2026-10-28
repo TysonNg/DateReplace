@@ -1,0 +1,15 @@
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\bin\Debug\net8.0\ContractDateReplacer.Infrastructure.deps.json
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\bin\Debug\net8.0\ContractDateReplacer.Infrastructure.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\bin\Debug\net8.0\ContractDateReplacer.Infrastructure.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\bin\Debug\net8.0\ContractDateReplacer.Core.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\bin\Debug\net8.0\ContractDateReplacer.Core.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.csproj.AssemblyReference.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.AssemblyInfoInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.AssemblyInfo.cs
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\Contract.179EA33F.Up2Date
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\refint\ContractDateReplacer.Infrastructure.dll
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ContractDateReplacer.Infrastructure.pdb
+D:\Projects\DateReplace\src\ContractDateReplacer.Infrastructure\obj\Debug\net8.0\ref\ContractDateReplacer.Infrastructure.dll

@@ -1,0 +1,471 @@
+{
+  "format": 1,
+  "restore": {
+    "d:\\Projects\\DateReplace\\tests\\ContractDateReplacer.App.Tests\\ContractDateReplacer.App.Tests.csproj": {}
+  },
+  "projects": {
+    "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.App\\ContractDateReplacer.App.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.App\\ContractDateReplacer.App.csproj",
+        "projectName": "ContractDateReplacer.App",
+        "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.App\\ContractDateReplacer.App.csproj",
+        "packagesPath": "C:\\Users\\immin\\.nuget\\packages\\",
+        "outputPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.App\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\immin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
+            "projectReferences": {
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj"
+              },
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Infrastructure\\ContractDateReplacer.Infrastructure.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Infrastructure\\ContractDateReplacer.Infrastructure.csproj"
+              },
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj"
+              },
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Word\\ContractDateReplacer.Word.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Word\\ContractDateReplacer.Word.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.3.2, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "WPF-UI": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\immin\\AppData\\Local\\Microsoft\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj",
+        "projectName": "ContractDateReplacer.Core",
+        "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj",
+        "packagesPath": "C:\\Users\\immin\\.nuget\\packages\\",
+        "outputPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\immin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\immin\\AppData\\Local\\Microsoft\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Infrastructure\\ContractDateReplacer.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Infrastructure\\ContractDateReplacer.Infrastructure.csproj",
+        "projectName": "ContractDateReplacer.Infrastructure",
+        "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Infrastructure\\ContractDateReplacer.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\immin\\.nuget\\packages\\",
+        "outputPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\immin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\immin\\AppData\\Local\\Microsoft\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj",
+        "projectName": "ContractDateReplacer.Persistence",
+        "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj",
+        "packagesPath": "C:\\Users\\immin\\.nuget\\packages\\",
+        "outputPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\immin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\immin\\AppData\\Local\\Microsoft\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Word\\ContractDateReplacer.Word.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Word\\ContractDateReplacer.Word.csproj",
+        "projectName": "ContractDateReplacer.Word",
+        "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Word\\ContractDateReplacer.Word.csproj",
+        "packagesPath": "C:\\Users\\immin\\.nuget\\packages\\",
+        "outputPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Word\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\immin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\immin\\AppData\\Local\\Microsoft\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "d:\\Projects\\DateReplace\\tests\\ContractDateReplacer.App.Tests\\ContractDateReplacer.App.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "d:\\Projects\\DateReplace\\tests\\ContractDateReplacer.App.Tests\\ContractDateReplacer.App.Tests.csproj",
+        "projectName": "ContractDateReplacer.App.Tests",
+        "projectPath": "d:\\Projects\\DateReplace\\tests\\ContractDateReplacer.App.Tests\\ContractDateReplacer.App.Tests.csproj",
+        "packagesPath": "C:\\Users\\immin\\.nuget\\packages\\",
+        "outputPath": "d:\\Projects\\DateReplace\\tests\\ContractDateReplacer.App.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\immin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
+            "projectReferences": {
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.App\\ContractDateReplacer.App.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.App\\ContractDateReplacer.App.csproj"
+              },
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Core\\ContractDateReplacer.Core.csproj"
+              },
+              "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj": {
+                "projectPath": "d:\\Projects\\DateReplace\\src\\ContractDateReplacer.Persistence\\ContractDateReplacer.Persistence.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.12.2, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.72, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.5.3, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.5.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\immin\\AppData\\Local\\Microsoft\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
